@@ -29,7 +29,7 @@ async def async_setup_entry(
 
     await hub.async_start()
 
-    hass.config_entries.async_setup_platforms(entry, ["sensor"])
+    hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
     await async_setup_services(hass, hub)
 
     return True
