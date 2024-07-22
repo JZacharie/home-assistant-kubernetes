@@ -5,7 +5,7 @@ from typing import Final
 
 DOMAIN: Final = "kubernetes"
 
-CONF_FILE = "./config"
+CONF_FILE = ".kube/config"
 
 SERVICE_SET_IMAGE_DEPLOYMENT = "set_image_deployment"
 SERVICE_SET_IMAGE_DAEMONSET = "set_image_daemon_set"

@@ -7,6 +7,7 @@ import voluptuous as vol
 
 from homeassistant import config_entries, exceptions
 from homeassistant.core import HomeAssistant
+from homeassistant.data_entry_flow import FlowResult
 
 from .const import DOMAIN  # pylint:disable=unused-import
 from .kubernetes_hub import KubernetesHub
@@ -24,7 +25,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 
     await hub.async_start()
 
-    # do single request to validate authentification.
+    # do single request to validate authentication.
     await hub.list_namespaces_func()()
 
     return {"title": DOMAIN}
@@ -34,11 +35,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow."""
 
     VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
-    async def async_step_user(self, user_input=None):
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         """Handle the initial step."""
-
         errors = {}
         if user_input is not None:
             try:
@@ -46,17 +45,15 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
                 return self.async_create_entry(title=info["title"], data=user_input)
             except MissingConfig:
-                _LOGGER.exception("Missing config file")
+                _LOGGER.error("Missing config file")
                 errors["base"] = "missing_config"
-            except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
+            except Exception as ex:  # pylint: disable=broad-except
+                _LOGGER.error("Unexpected exception: %s", ex)
                 errors["base"] = "unknown"
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema(
-                {}
-            ),
+            data_schema=DATA_SCHEMA,
             errors=errors,
         )
 

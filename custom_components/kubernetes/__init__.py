@@ -6,9 +6,9 @@ import logging
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.entity_platform import async_get_platforms
 
 from .kubernetes_hub import KubernetesHub
-
 from .const import DOMAIN
 from .services import async_setup_services, async_unload_services
 
@@ -29,7 +29,7 @@ async def async_setup_entry(
 
     await hub.async_start()
 
-    hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
+    await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
     await async_setup_services(hass, hub)
 
     return True
@@ -39,6 +39,7 @@ async def async_unload_entry(
     hass: HomeAssistant,
     entry: ConfigEntry,
 ) -> bool:
+    await hass.config_entries.async_unload_platforms(entry, ["sensor"])
     hass.data[DOMAIN].pop(entry.entry_id)
 
     await async_unload_services(hass)

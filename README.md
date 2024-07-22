@@ -7,7 +7,7 @@ This is a custom component for monitoring your Kubernetes cluster with Home Assi
 ## Installation
 
 1. Install this Integration as a [HACS custom repository](https://hacs.xyz/docs/faq/custom_repositories) or just copy the content of the release zip to your custom_components directory.
-2. Copy the config which you use to access your Kubernetes cluster to the config folder of your Home Assistant instace (usually you can find this file here: `~/.kube/config` or `/etc/kubernetes/admin.conf` on your master node)
+2. Copy the config which you use to access your Kubernetes cluster to the config (in .kube/config) folder of your Home Assistant instace (usually you can find this file here: `~/.kube/config` or `/etc/kubernetes/admin.conf` on your master node)
 3. Add the Integration in Home Assistant by navigating to Configuration -> Integrations -> Add Integration and search for *kubernetes*
 
 ## Sensors
