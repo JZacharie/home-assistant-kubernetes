@@ -2,7 +2,7 @@
     "domain": "kubernetes",
     "name": "Kubernetes",
     "config_flow": true,
-    "documentation": "https://github.com/jzacharie/home-assistant-kubernetes",
+    "documentation": "https://github.com/JZacharie/home-assistant-kubernetes",
     "codeowners": [
         "@JZacharie"
     ],
